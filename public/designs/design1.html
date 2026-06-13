@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectHub - College Project Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #0d4f8b;
+      --primary-light: #1a73c7;
+      --primary-dark: #083a66;
+      --primary-50: #e8f1fa;
+      --primary-100: #c5d9f0;
+      --secondary: #2c3e50;
+      --accent: #e8a838;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --error: #e74c3c;
+      --neutral-50: #f8f9fa;
+      --neutral-100: #e9ecef;
+      --neutral-200: #dee2e6;
+      --neutral-600: #6c757d;
+      --neutral-800: #343a40;
+      --neutral-900: #212529;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --radius: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--neutral-900);
+      background: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ── Navbar ── */
+    .navbar-custom {
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      padding: .75rem 0;
+      transition: box-shadow .3s, background .3s;
+      z-index: 1050;
+    }
+    .navbar-custom.scrolled {
+      box-shadow: var(--shadow-md);
+      background: rgba(255,255,255,.98);
+    }
+    .navbar-custom .navbar-brand {
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .navbar-custom .navbar-brand .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .navbar-custom .nav-link {
+      color: var(--neutral-800);
+      font-weight: 500;
+      font-size: .9rem;
+      padding: .5rem .85rem !important;
+      border-radius: 6px;
+      transition: color .2s, background .2s;
+    }
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .nav-link.active {
+      color: var(--primary);
+      background: var(--primary-50);
+    }
+    .user-dropdown .btn-user {
+      background: var(--primary-50);
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: .4rem .9rem .4rem .5rem;
+      font-weight: 600;
+      font-size: .85rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      transition: background .2s;
+    }
+    .user-dropdown .btn-user:hover { background: var(--primary-100); }
+    .user-dropdown .btn-user .avatar {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+    .dropdown-menu {
+      border: 1px solid var(--neutral-200);
+      box-shadow: var(--shadow-md);
+      border-radius: var(--radius);
+      padding: .5rem;
+      min-width: 180px;
+    }
+    .dropdown-menu .dropdown-item {
+      border-radius: 6px;
+      padding: .45rem .85rem;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--neutral-800);
+      transition: background .15s, color .15s;
+    }
+    .dropdown-menu .dropdown-item:hover {
+      background: var(--primary-50);
+      color: var(--primary);
+    }
+    .dropdown-menu .dropdown-item i { width: 20px; }
+
+    /* ── Hero ── */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+      color: #fff;
+      padding: 7rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: rgba(255,255,255,.05);
+      border-radius: 50%;
+    }
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,.03);
+      border-radius: 50%;
+    }
+    .hero-section h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .hero-section .lead {
+      font-size: 1.15rem;
+      font-weight: 400;
+      opacity: .9;
+      max-width: 560px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50px;
+      padding: .35rem 1rem;
+      font-size: .8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .btn-hero {
+      padding: .7rem 1.8rem;
+      font-weight: 600;
+      font-size: .95rem;
+      border-radius: 50px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-hero:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.2);
+    }
+    .btn-hero-primary {
+      background: #fff;
+      color: var(--primary);
+      border: 2px solid #fff;
+    }
+    .btn-hero-primary:hover { background: #fff; color: var(--primary); }
+    .btn-hero-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.5);
+    }
+    .btn-hero-outline:hover {
+      background: rgba(255,255,255,.1);
+      border-color: #fff;
+      color: #fff;
+    }
+    .hero-stats-row {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.15);
+    }
+    .hero-stat-item {
+      text-align: center;
+    }
+    .hero-stat-item .num {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+    .hero-stat-item .label {
+      font-size: .82rem;
+      opacity: .75;
+      font-weight: 400;
+    }
+
+    /* ── Section common ── */
+    .section-padding { padding: 5rem 0; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: .5rem;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--neutral-600);
+      max-width: 560px;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: var(--primary-50);
+      color: var(--primary);
+      border-radius: 50px;
+      padding: .3rem .9rem;
+      font-size: .78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .75rem;
+    }
+
+    /* ── Features ── */
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      height: 100%;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--primary-50);
+      color: var(--primary);
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      transition: background .25s, color .25s;
+    }
+    .feature-card:hover .feature-icon {
+      background: var(--primary);
+      color: #fff;
+    }
+    .feature-card h5 { font-weight: 600; font-size: 1.05rem; margin-bottom: .5rem; }
+    .feature-card p { color: var(--neutral-600); font-size: .9rem; margin: 0; }
+
+    /* ── Statistics ── */
+    .stats-section {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .stat-card .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255,255,255,.15);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: .75rem;
+    }
+    .stat-card .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .stat-card .stat-label {
+      font-size: .9rem;
+      opacity: .8;
+      font-weight: 400;
+      margin-top: .25rem;
+    }
+
+    /* ── Project Cards ── */
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-card-img {
+      height: 180px;
+      background: linear-gradient(135deg, var(--primary-50), var(--primary-100));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+    .project-card-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card-body h6 { font-weight: 600; margin-bottom: .4rem; }
+    .project-card-body p {
+      color: var(--neutral-600);
+      font-size: .85rem;
+      margin-bottom: .75rem;
+      flex: 1;
+    }
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-size: .78rem;
+      color: var(--neutral-600);
+    }
+    .project-meta i { color: var(--primary); }
+    .badge-status {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .25rem .65rem;
+      border-radius: 50px;
+    }
+
+    /* ── Competition Cards ── */
+    .competition-card {
+      background: #fff;
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform .25s, box-shadow .25s;
+      height: 100%;
+    }
+    .competition-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .competition-date {
+      width: 56px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 10px;
+      text-align: center;
+      padding: .5rem .25rem;
+      flex-shrink: 0;
+    }
+    .competition-date .day { font-size: 1.35rem; font-weight: 700; line-height: 1.1; }
+    .competition-date .month { font-size: .7rem; text-transform: uppercase; letter-spacing: .5px; }
+    .competition-card h6 { font-weight: 600; font-size: .95rem; margin-bottom: .25rem; }
+    .competition-card p { color: var(--neutral-600); font-size: .85rem; margin-bottom: .5rem; }
+    .competition-tag {
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+      background: var(--primary-50);
+      color: var(--primary);
+    }
+
+    /* ── Announcements ── */
+    .announcement-item {
+      background: #fff;
+      border: 1px solid var(--neutral-200);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: box-shadow .2s;
+    }
+    .announcement-item:hover { box-shadow: var(--shadow-md); }
+    .announcement-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--primary-50);
+      color: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .announcement-item h6 { font-weight: 600; font-size: .92rem; margin-bottom: .2rem; }
+    .announcement-item p { color: var(--neutral-600); font-size: .84rem; margin: 0; }
+    .announcement-date { font-size: .75rem; color: var(--neutral-600); }
+
+    /* ── Testimonials ── */
+    .testimonial-card {
+      background: #fff;
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s;
+      height: 100%;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-50);
+      color: var(--primary);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+    .testimonial-card p { color: var(--neutral-600); font-size: .9rem; font-style: italic; margin-bottom: 1rem; }
+    .testimonial-card h6 { font-weight: 600; font-size: .92rem; margin-bottom: .1rem; }
+    .testimonial-card .role { font-size: .8rem; color: var(--neutral-600); }
+    .stars { color: var(--accent); font-size: .85rem; }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--neutral-50);
+      border-top: 1px solid var(--neutral-200);
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+      color: #fff;
+      border-radius: 20px;
+      padding: 3.5rem 3rem;
+      text-align: center;
+    }
+    .cta-box h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: .75rem; }
+    .cta-box p { font-size: 1.05rem; opacity: .85; max-width: 500px; margin: 0 auto 1.5rem; }
+    .btn-cta {
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      font-weight: 600;
+      padding: .7rem 2rem;
+      border-radius: 50px;
+      font-size: .95rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.2);
+      background: #fff;
+      color: var(--primary);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--secondary);
+      color: rgba(255,255,255,.8);
+      padding: 3.5rem 0 1.5rem;
+    }
+    .footer h6 {
+      color: #fff;
+      font-weight: 600;
+      font-size: .95rem;
+      margin-bottom: 1rem;
+    }
+    .footer a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: color .2s;
+    }
+    .footer a:hover { color: #fff; }
+    .footer .social-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,.1);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      color: rgba(255,255,255,.8);
+      transition: background .2s, color .2s;
+    }
+    .footer .social-icon:hover {
+      background: var(--primary-light);
+      color: #fff;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 1.25rem;
+      margin-top: 2rem;
+      font-size: .82rem;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ── Progress bars ── */
+    .progress-thin {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--neutral-100);
+    }
+    .progress-thin .progress-bar { border-radius: 3px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .hero-section h1 { font-size: 2.4rem; }
+      .hero-section { padding: 5rem 0 4rem; }
+    }
+    @media (max-width: 767px) {
+      .hero-section h1 { font-size: 2rem; }
+      .section-title { font-size: 1.65rem; }
+      .cta-box { padding: 2.5rem 1.5rem; }
+      .cta-box h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <span class="brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+        ProjectHub
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#competitions">Competitions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#results">Results</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="dropdown user-dropdown">
+          <button class="btn btn-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="avatar">JD</span>
+            John Doe
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2"></i>Registration</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Log Off</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero-section" id="home">
+    <div class="container position-relative" style="z-index:2;">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="hero-badge">
+            <i class="bi bi-stars"></i>
+            Trusted by 200+ Colleges
+          </div>
+          <h1>Manage Your College<br>Projects With Confidence</h1>
+          <p class="lead">A streamlined platform for students and administrators to submit, track, and evaluate academic projects and competitions — all in one place.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="#" class="btn btn-hero btn-hero-primary">Get Started Free</a>
+            <a href="#" class="btn btn-hero btn-hero-outline"><i class="bi bi-play-circle me-1"></i>Watch Demo</a>
+          </div>
+          <div class="hero-stats-row row g-3">
+            <div class="col-4 hero-stat-item">
+              <div class="num">1,200+</div>
+              <div class="label">Projects Managed</div>
+            </div>
+            <div class="col-4 hero-stat-item">
+              <div class="num">50+</div>
+              <div class="label">Active Competitions</div>
+            </div>
+            <div class="col-4 hero-stat-item">
+              <div class="num">5,000+</div>
+              <div class="label">Students Registered</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section class="section-padding" id="features">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-badge"><i class="bi bi-grid-3x3-gap"></i> Features</div>
+        <h2 class="section-title">Everything You Need to Succeed</h2>
+        <p class="section-subtitle mx-auto">Powerful tools designed for the entire academic project lifecycle — from submission to evaluation.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-cloud-upload"></i></div>
+            <h5>Project Submission</h5>
+            <p>Submit projects with documentation, source code, and multimedia — all organized in one place.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-trophy"></i></div>
+            <h5>Competition Participation</h5>
+            <p>Discover and join college-level competitions with team registration and deadline tracking.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <h5>Result Tracking</h5>
+            <p>View competition results and project grades with detailed analytics and performance insights.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-kanban"></i></div>
+            <h5>Project Progress Monitoring</h5>
+            <p>Track milestones, deadlines, and deliverables with visual progress dashboards.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-patch-check"></i></div>
+            <h5>Admin Approval Workflow</h5>
+            <p>Administrators can review, approve, or request revisions with an intuitive workflow system.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-bell"></i></div>
+            <h5>Real-Time Notifications</h5>
+            <p>Stay updated on project status changes, competition announcements, and deadline reminders.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ STATISTICS ═══════ -->
+  <section class="stats-section section-padding">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-folder2-open"></i></div>
+            <div class="stat-number">1,247</div>
+            <div class="stat-label">Total Projects</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-lightning-charge"></i></div>
+            <div class="stat-number">52</div>
+            <div class="stat-label">Active Competitions</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <div class="stat-number">5,830</div>
+            <div class="stat-label">Registered Students</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-check2-circle"></i></div>
+            <div class="stat-number">896</div>
+            <div class="stat-label">Completed Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ LATEST PROJECTS ═══════ -->
+  <section class="section-padding" id="projects">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+        <div>
+          <div class="section-badge"><i class="bi bi-folder2"></i> Projects</div>
+          <h2 class="section-title">Latest Projects</h2>
+          <p class="section-subtitle">Recently submitted academic projects across departments.</p>
+        </div>
+        <a href="#" class="btn btn-outline-primary rounded-pill mt-2" style="font-size:.88rem;font-weight:600;">View All Projects</a>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <div class="project-card-img"><i class="bi bi-robot"></i></div>
+            <div class="project-card-body">
+              <div class="mb-2"><span class="badge-status bg-success-subtle text-success">Approved</span></div>
+              <h6>AI-Powered Chatbot Assistant</h6>
+              <p>An intelligent chatbot for student queries using natural language processing and machine learning.</p>
+              <div class="progress-thin mb-2"><div class="progress-bar bg-success" style="width:85%"></div></div>
+              <div class="project-meta">
+                <span><i class="bi bi-person"></i> Team Alpha</span>
+                <span><i class="bi bi-calendar3"></i> Dec 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <div class="project-card-img"><i class="bi bi-cloud-hail"></i></div>
+            <div class="project-card-body">
+              <div class="mb-2"><span class="badge-status bg-warning-subtle text-warning">In Review</span></div>
+              <h6>Smart Weather Monitoring System</h6>
+              <p>IoT-based weather station providing real-time data analytics and predictive forecasting.</p>
+              <div class="progress-thin mb-2"><div class="progress-bar bg-warning" style="width:60%"></div></div>
+              <div class="project-meta">
+                <span><i class="bi bi-person"></i> Team Nova</span>
+                <span><i class="bi bi-calendar3"></i> Jan 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <div class="project-card-img"><i class="bi bi-shield-check"></i></div>
+            <div class="project-card-body">
+              <div class="mb-2"><span class="badge-status bg-primary-subtle text-primary">In Progress</span></div>
+              <h6>Campus Security Analytics</h6>
+              <p>Video analytics platform for campus safety using computer vision and anomaly detection.</p>
+              <div class="progress-thin mb-2"><div class="progress-bar" style="width:40%"></div></div>
+              <div class="project-meta">
+                <span><i class="bi bi-person"></i> Team Secure</span>
+                <span><i class="bi bi-calendar3"></i> Feb 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ UPCOMING COMPETITIONS ═══════ -->
+  <section class="section-padding bg-light" id="competitions">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-badge"><i class="bi bi-trophy"></i> Competitions</div>
+        <h2 class="section-title">Upcoming Competitions</h2>
+        <p class="section-subtitle mx-auto">Join exciting academic competitions and showcase your talent.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="competition-card">
+            <div class="d-flex gap-3">
+              <div class="competition-date">
+                <div class="day">15</div>
+                <div class="month">Jul</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>National Hackathon 2026</h6>
+                <p>48-hour coding challenge to build innovative solutions for real-world problems.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="competition-tag">Coding</span>
+                  <span class="competition-tag">Team Event</span>
+                  <span class="competition-tag">Prize Pool: ₹2L</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-card">
+            <div class="d-flex gap-3">
+              <div class="competition-date">
+                <div class="day">22</div>
+                <div class="month">Jul</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>Research Paper Presentation</h6>
+                <p>Present your original research findings to a panel of distinguished academicians.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="competition-tag">Research</span>
+                  <span class="competition-tag">Individual</span>
+                  <span class="competition-tag">Certificate</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-card">
+            <div class="d-flex gap-3">
+              <div class="competition-date">
+                <div class="day">05</div>
+                <div class="month">Aug</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>UI/UX Design Sprint</h6>
+                <p>Design intuitive interfaces for social impact applications in this 24-hour sprint.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="competition-tag">Design</span>
+                  <span class="competition-tag">Team Event</span>
+                  <span class="competition-tag">Prize Pool: ₹50K</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-card">
+            <div class="d-flex gap-3">
+              <div class="competition-date">
+                <div class="day">18</div>
+                <div class="month">Aug</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>AI/ML Model Challenge</h6>
+                <p>Build and train machine learning models to solve complex classification problems.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="competition-tag">AI/ML</span>
+                  <span class="competition-tag">Individual</span>
+                  <span class="competition-tag">Prize Pool: ₹1L</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ ANNOUNCEMENTS ═══════ -->
+  <section class="section-padding" id="announcements">
+    <div class="container">
+      <div class="row align-items-start">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <div class="section-badge"><i class="bi bi-megaphone"></i> Announcements</div>
+          <h2 class="section-title">Latest Notices</h2>
+          <p class="section-subtitle">Important updates and announcements from the administration.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="d-flex flex-column gap-3">
+            <div class="announcement-item">
+              <div class="announcement-icon"><i class="bi bi-exclamation-circle"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>Project Submission Deadline Extended</h6>
+                  <span class="announcement-date">2 hours ago</span>
+                </div>
+                <p>Final year project submission deadline has been extended to July 30, 2026.</p>
+              </div>
+            </div>
+            <div class="announcement-item">
+              <div class="announcement-icon"><i class="bi bi-calendar-event"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>Annual Tech Fest Registration Open</h6>
+                  <span class="announcement-date">1 day ago</span>
+                </div>
+                <p>Register for TechVista 2026 — early bird discounts available until June 25.</p>
+              </div>
+            </div>
+            <div class="announcement-item">
+              <div class="announcement-icon"><i class="bi bi-info-circle"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>New Project Categories Added</h6>
+                  <span class="announcement-date">3 days ago</span>
+                </div>
+                <p>Blockchain and IoT categories are now available for project submissions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ TESTIMONIALS ═══════ -->
+  <section class="section-padding bg-light" id="about">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-badge"><i class="bi bi-chat-quote"></i> Testimonials</div>
+        <h2 class="section-title">What Our Users Say</h2>
+        <p class="section-subtitle mx-auto">Hear from students and administrators who use ProjectHub daily.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="testimonial-avatar">AS</div>
+            <div class="stars mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>"ProjectHub made it incredibly easy to track our final year project milestones. The admin feedback system is a game changer."</p>
+            <h6>Ananya Sharma</h6>
+            <div class="role">Computer Science Student</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="testimonial-avatar">RK</div>
+            <div class="stars mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            </div>
+            <p>"As an administrator, the approval workflow saves hours every week. Reviewing and grading projects is now seamless."</p>
+            <h6>Dr. Rajesh Kumar</h6>
+            <div class="role">HOD, Information Technology</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="testimonial-avatar">PM</div>
+            <div class="stars mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>"The competition tracking feature helped our team stay on top of deadlines and prepare winning submissions."</p>
+            <h6>Priya Mehta</h6>
+            <div class="role">Electronics Student</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="cta-section section-padding" id="contact">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to Transform Your Project Management?</h2>
+        <p>Join thousands of students and educators already using ProjectHub to streamline academic projects.</p>
+        <a href="#" class="btn btn-cta">Start Free Today <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 mb-3 mb-lg-0">
+          <h6 style="color:#fff;font-size:1.15rem;font-weight:700;"><i class="bi bi-mortarboard-fill me-2"></i>ProjectHub</h6>
+          <p style="font-size:.88rem;max-width:280px;">Empowering colleges to manage academic projects and competitions with modern, intuitive tools.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Quick Links</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Competitions</a></li>
+            <li><a href="#">Results</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Resources</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Guidelines</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h6>Contact Information</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2" style="font-size:.88rem;">
+            <li><i class="bi bi-geo-alt me-2"></i>123 University Ave, Academic City, IN 560001</li>
+            <li><i class="bi bi-envelope me-2"></i>support@projecthub.edu</li>
+            <li><i class="bi bi-telephone me-2"></i>+91 80 1234 5678</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        &copy; 2026 ProjectHub. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('.navbar-custom').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>

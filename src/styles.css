@@ -1,1 +1,545 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+    :root {
+      --primary: #1a1a2e;
+      --primary-light: #16213e;
+      --accent: #e2b04a;
+      --accent-light: #f0d078;
+      --accent-bg: #faf6ee;
+      --success: #2d8a6e;
+      --warning: #d4943a;
+      --error: #c44536;
+      --info: #3a7bd5;
+      --bg: #fafafa;
+      --bg-white: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #5a5a72;
+      --text-muted: #9a9ab0;
+      --border: #e8e8ef;
+      --border-light: #f2f2f7;
+      --shadow-xs: 0 1px 2px rgba(26,26,46,.04);
+      --shadow-sm: 0 2px 8px rgba(26,26,46,.06);
+      --shadow-md: 0 4px 16px rgba(26,26,46,.08);
+      --shadow-lg: 0 8px 32px rgba(26,26,46,.1);
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    h1, h2, .display-font {
+      font-family: 'DM Serif Display', Georgia, serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar-minimal {
+      background: rgba(250,250,250,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 0;
+      z-index: 1050;
+      transition: background .3s, box-shadow .3s;
+    }
+    .navbar-minimal.scrolled {
+      background: rgba(255,255,255,.98);
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-minimal .navbar-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .brand-mark {
+      width: 32px; height: 32px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+    .navbar-minimal .nav-link {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: .88rem;
+      padding: .4rem .75rem !important;
+      border-radius: 6px;
+      transition: color .2s;
+      letter-spacing: .01em;
+    }
+    .navbar-minimal .nav-link:hover,
+    .navbar-minimal .nav-link.active {
+      color: var(--primary);
+    }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: .3rem .75rem .3rem .35rem;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .user-chip:hover { border-color: var(--primary); }
+    .user-chip .chip-avatar {
+      width: 30px; height: 30px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .user-chip .chip-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .dropdown-menu.minimal-drop {
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      border-radius: var(--radius);
+      padding: .5rem;
+      min-width: 180px;
+    }
+    .dropdown-menu.minimal-drop .dropdown-item {
+      border-radius: var(--radius-sm);
+      padding: .45rem .85rem;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: background .15s, color .15s;
+    }
+    .dropdown-menu.minimal-drop .dropdown-item:hover {
+      background: var(--accent-bg);
+      color: var(--primary);
+    }
+    .dropdown-menu.minimal-drop .dropdown-item i { width: 20px; color: var(--text-muted); }
+    .dropdown-menu.minimal-drop .dropdown-item:hover i { color: var(--accent); }
+    .dropdown-menu.minimal-drop .dropdown-divider { border-color: var(--border-light); }
+
+    /* ── Hero ── */
+    .hero-minimal {
+      padding: 8rem 0 6rem;
+      background: var(--bg-white);
+      position: relative;
+    }
+    .hero-minimal h1 {
+      font-size: 4rem;
+      line-height: 1.08;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-minimal h1 .accent-word {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .hero-minimal .lead {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .btn-minimal {
+      padding: .65rem 1.6rem;
+      font-weight: 600;
+      font-size: .9rem;
+      border-radius: var(--radius-sm);
+      transition: transform .2s, box-shadow .2s, background .2s;
+      letter-spacing: .01em;
+    }
+    .btn-minimal:hover { transform: translateY(-1px); }
+    .btn-primary-minimal {
+      background: var(--primary);
+      color: var(--accent);
+      border: none;
+    }
+    .btn-primary-minimal:hover {
+      background: var(--primary-light);
+      color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-outline-minimal {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-outline-minimal:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+    .hero-logos {
+      margin-top: 3.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .hero-logos p { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .hero-logo-item {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      opacity: .5;
+      transition: opacity .2s;
+    }
+    .hero-logo-item:hover { opacity: 1; }
+
+    /* ── Section ── */
+    .section-padding { padding: 6rem 0; }
+    .label-tag {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .section-heading {
+      font-size: 2.5rem;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: .5rem;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    /* ── Features ── */
+    .features-section { background: var(--bg-white); }
+    .feature-minimal {
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      background: var(--bg);
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      height: 100%;
+    }
+    .feature-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border);
+    }
+    .feature-minimal .fm-icon {
+      width: 48px; height: 48px;
+      background: var(--accent-bg);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .feature-minimal h5 { font-weight: 600; font-size: 1.05rem; margin-bottom: .5rem; font-family: 'DM Sans', sans-serif; }
+    .feature-minimal p { color: var(--text-secondary); font-size: .9rem; margin: 0; line-height: 1.65; }
+
+    /* ── Stats ── */
+    .stats-section { background: var(--primary); color: #fff; }
+    .stat-minimal {
+      text-align: center;
+      padding: 2rem;
+    }
+    .stat-minimal .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: .25rem;
+    }
+    .stat-minimal .stat-label {
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+      font-weight: 400;
+    }
+
+    /* ── Projects ── */
+    .project-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-minimal:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-minimal-img {
+      height: 190px;
+      background: var(--accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+    .project-minimal-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-minimal-body h6 { font-weight: 600; font-size: 1rem; margin-bottom: .35rem; font-family: 'DM Sans', sans-serif; }
+    .project-minimal-body p { color: var(--text-secondary); font-size: .88rem; margin-bottom: .75rem; flex: 1; line-height: 1.6; }
+    .badge-minimal {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .3rem .7rem;
+      border-radius: 50px;
+      letter-spacing: .3px;
+    }
+    .badge-minimal-success { background: rgba(45,138,110,.08); color: var(--success); }
+    .badge-minimal-warning { background: rgba(212,148,58,.08); color: var(--warning); }
+    .badge-minimal-info { background: rgba(58,123,213,.08); color: var(--info); }
+    .project-minimal-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+      padding-top: .75rem;
+      border-top: 1px solid var(--border-light);
+      margin-top: auto;
+    }
+    .project-minimal-meta i { color: var(--accent); font-size: .85rem; }
+    .progress-minimal {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-light);
+    }
+    .progress-minimal .progress-bar { border-radius: 2px; background: var(--accent); }
+
+    /* ── Competitions ── */
+    .competitions-section { background: var(--bg-white); }
+    .competition-minimal {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      height: 100%;
+    }
+    .competition-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border);
+    }
+    .comp-date-minimal {
+      width: 52px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      padding: .4rem .25rem;
+      flex-shrink: 0;
+    }
+    .comp-date-minimal .day {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      line-height: 1.1;
+      color: var(--primary);
+    }
+    .comp-date-minimal .month {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+    }
+    .competition-minimal h6 { font-weight: 600; font-size: .98rem; margin-bottom: .2rem; }
+    .competition-minimal p { color: var(--text-secondary); font-size: .85rem; margin-bottom: .65rem; line-height: 1.55; }
+    .tag-minimal {
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .65rem;
+      border-radius: 50px;
+      background: var(--bg);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+    }
+
+    /* ── Announcements ── */
+    .announcement-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      transition: box-shadow .2s;
+    }
+    .announcement-minimal:hover { box-shadow: var(--shadow-sm); }
+    .announcement-minimal-icon {
+      width: 40px; height: 40px;
+      background: var(--accent-bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .announcement-minimal h6 { font-weight: 600; font-size: .92rem; margin-bottom: .15rem; }
+    .announcement-minimal p { color: var(--text-secondary); font-size: .85rem; margin: 0; line-height: 1.55; }
+    .announcement-minimal .date { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── Testimonials ── */
+    .testimonials-section { background: var(--bg); }
+    .testimonial-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: transform .3s, box-shadow .3s;
+      height: 100%;
+    }
+    .testimonial-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .testimonial-avatar-minimal {
+      width: 56px; height: 56px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .testimonial-minimal .quote-icon {
+      font-size: 2rem;
+      color: var(--accent-bg);
+      line-height: 1;
+      margin-bottom: .5rem;
+      font-family: 'DM Serif Display', serif;
+    }
+    .testimonial-minimal p { color: var(--text-secondary); font-size: .92rem; font-style: italic; margin-bottom: 1.25rem; line-height: 1.65; }
+    .testimonial-minimal h6 { font-weight: 600; font-size: .92rem; margin-bottom: .1rem; }
+    .testimonial-minimal .role { font-size: .8rem; color: var(--text-muted); }
+    .stars-minimal { color: var(--accent); font-size: .85rem; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-white); }
+    .cta-minimal-box {
+      background: var(--accent-bg);
+      border: 1px solid rgba(226,176,74,.2);
+      border-radius: var(--radius-xl);
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+    .cta-minimal-box h2 {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+    }
+    .cta-minimal-box p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 460px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+    .btn-cta-minimal {
+      background: var(--primary);
+      color: var(--accent);
+      border: none;
+      font-weight: 600;
+      padding: .75rem 2.25rem;
+      border-radius: var(--radius-sm);
+      font-size: .95rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta-minimal:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      background: var(--primary-light);
+      color: var(--accent);
+    }
+
+    /* ── Footer ── */
+    .footer-minimal {
+      background: var(--primary);
+      color: rgba(255,255,255,.7);
+      padding: 4rem 0 1.5rem;
+    }
+    .footer-minimal h6 {
+      color: #fff;
+      font-weight: 600;
+      font-size: .92rem;
+      margin-bottom: 1.25rem;
+    }
+    .footer-minimal a {
+      color: rgba(255,255,255,.55);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: color .2s;
+    }
+    .footer-minimal a:hover { color: var(--accent); }
+    .footer-minimal .social-link {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: rgba(255,255,255,.6);
+      transition: border-color .2s, color .2s;
+    }
+    .footer-minimal .social-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .footer-bottom-minimal {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+      font-size: .82rem;
+      color: rgba(255,255,255,.35);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .hero-minimal h1 { font-size: 2.8rem; }
+      .hero-minimal { padding: 5rem 0 4rem; }
+      .section-heading { font-size: 2rem; }
+    }
+    @media (max-width: 767px) {
+      .hero-minimal h1 { font-size: 2.2rem; }
+      .section-heading { font-size: 1.75rem; }
+      .cta-minimal-box { padding: 3rem 1.5rem; }
+      .cta-minimal-box h2 { font-size: 1.8rem; }
+      .stat-minimal .stat-num { font-size: 2.2rem; }
+    }

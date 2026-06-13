@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectHub - Premium Minimal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --primary-light: #16213e;
+      --accent: #e2b04a;
+      --accent-light: #f0d078;
+      --accent-bg: #faf6ee;
+      --success: #2d8a6e;
+      --warning: #d4943a;
+      --error: #c44536;
+      --info: #3a7bd5;
+      --bg: #fafafa;
+      --bg-white: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #5a5a72;
+      --text-muted: #9a9ab0;
+      --border: #e8e8ef;
+      --border-light: #f2f2f7;
+      --shadow-xs: 0 1px 2px rgba(26,26,46,.04);
+      --shadow-sm: 0 2px 8px rgba(26,26,46,.06);
+      --shadow-md: 0 4px 16px rgba(26,26,46,.08);
+      --shadow-lg: 0 8px 32px rgba(26,26,46,.1);
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    h1, h2, .display-font {
+      font-family: 'DM Serif Display', Georgia, serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar-minimal {
+      background: rgba(250,250,250,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 0;
+      z-index: 1050;
+      transition: background .3s, box-shadow .3s;
+    }
+    .navbar-minimal.scrolled {
+      background: rgba(255,255,255,.98);
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-minimal .navbar-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .brand-mark {
+      width: 32px; height: 32px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+    .navbar-minimal .nav-link {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: .88rem;
+      padding: .4rem .75rem !important;
+      border-radius: 6px;
+      transition: color .2s;
+      letter-spacing: .01em;
+    }
+    .navbar-minimal .nav-link:hover,
+    .navbar-minimal .nav-link.active {
+      color: var(--primary);
+    }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: .3rem .75rem .3rem .35rem;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .user-chip:hover { border-color: var(--primary); }
+    .user-chip .chip-avatar {
+      width: 30px; height: 30px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .user-chip .chip-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .dropdown-menu.minimal-drop {
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      border-radius: var(--radius);
+      padding: .5rem;
+      min-width: 180px;
+    }
+    .dropdown-menu.minimal-drop .dropdown-item {
+      border-radius: var(--radius-sm);
+      padding: .45rem .85rem;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: background .15s, color .15s;
+    }
+    .dropdown-menu.minimal-drop .dropdown-item:hover {
+      background: var(--accent-bg);
+      color: var(--primary);
+    }
+    .dropdown-menu.minimal-drop .dropdown-item i { width: 20px; color: var(--text-muted); }
+    .dropdown-menu.minimal-drop .dropdown-item:hover i { color: var(--accent); }
+    .dropdown-menu.minimal-drop .dropdown-divider { border-color: var(--border-light); }
+
+    /* ── Hero ── */
+    .hero-minimal {
+      padding: 8rem 0 6rem;
+      background: var(--bg-white);
+      position: relative;
+    }
+    .hero-minimal h1 {
+      font-size: 4rem;
+      line-height: 1.08;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-minimal h1 .accent-word {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .hero-minimal .lead {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .btn-minimal {
+      padding: .65rem 1.6rem;
+      font-weight: 600;
+      font-size: .9rem;
+      border-radius: var(--radius-sm);
+      transition: transform .2s, box-shadow .2s, background .2s;
+      letter-spacing: .01em;
+    }
+    .btn-minimal:hover { transform: translateY(-1px); }
+    .btn-primary-minimal {
+      background: var(--primary);
+      color: var(--accent);
+      border: none;
+    }
+    .btn-primary-minimal:hover {
+      background: var(--primary-light);
+      color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-outline-minimal {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-outline-minimal:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+    .hero-logos {
+      margin-top: 3.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border-light);
+    }
+    .hero-logos p { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .hero-logo-item {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      opacity: .5;
+      transition: opacity .2s;
+    }
+    .hero-logo-item:hover { opacity: 1; }
+
+    /* ── Section ── */
+    .section-padding { padding: 6rem 0; }
+    .label-tag {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .section-heading {
+      font-size: 2.5rem;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: .5rem;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    /* ── Features ── */
+    .features-section { background: var(--bg-white); }
+    .feature-minimal {
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      background: var(--bg);
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      height: 100%;
+    }
+    .feature-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border);
+    }
+    .feature-minimal .fm-icon {
+      width: 48px; height: 48px;
+      background: var(--accent-bg);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .feature-minimal h5 { font-weight: 600; font-size: 1.05rem; margin-bottom: .5rem; font-family: 'DM Sans', sans-serif; }
+    .feature-minimal p { color: var(--text-secondary); font-size: .9rem; margin: 0; line-height: 1.65; }
+
+    /* ── Stats ── */
+    .stats-section { background: var(--primary); color: #fff; }
+    .stat-minimal {
+      text-align: center;
+      padding: 2rem;
+    }
+    .stat-minimal .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: .25rem;
+    }
+    .stat-minimal .stat-label {
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+      font-weight: 400;
+    }
+
+    /* ── Projects ── */
+    .project-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-minimal:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-minimal-img {
+      height: 190px;
+      background: var(--accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+    .project-minimal-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-minimal-body h6 { font-weight: 600; font-size: 1rem; margin-bottom: .35rem; font-family: 'DM Sans', sans-serif; }
+    .project-minimal-body p { color: var(--text-secondary); font-size: .88rem; margin-bottom: .75rem; flex: 1; line-height: 1.6; }
+    .badge-minimal {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .3rem .7rem;
+      border-radius: 50px;
+      letter-spacing: .3px;
+    }
+    .badge-minimal-success { background: rgba(45,138,110,.08); color: var(--success); }
+    .badge-minimal-warning { background: rgba(212,148,58,.08); color: var(--warning); }
+    .badge-minimal-info { background: rgba(58,123,213,.08); color: var(--info); }
+    .project-minimal-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+      padding-top: .75rem;
+      border-top: 1px solid var(--border-light);
+      margin-top: auto;
+    }
+    .project-minimal-meta i { color: var(--accent); font-size: .85rem; }
+    .progress-minimal {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-light);
+    }
+    .progress-minimal .progress-bar { border-radius: 2px; background: var(--accent); }
+
+    /* ── Competitions ── */
+    .competitions-section { background: var(--bg-white); }
+    .competition-minimal {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      height: 100%;
+    }
+    .competition-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border);
+    }
+    .comp-date-minimal {
+      width: 52px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      padding: .4rem .25rem;
+      flex-shrink: 0;
+    }
+    .comp-date-minimal .day {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      line-height: 1.1;
+      color: var(--primary);
+    }
+    .comp-date-minimal .month {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+    }
+    .competition-minimal h6 { font-weight: 600; font-size: .98rem; margin-bottom: .2rem; }
+    .competition-minimal p { color: var(--text-secondary); font-size: .85rem; margin-bottom: .65rem; line-height: 1.55; }
+    .tag-minimal {
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .65rem;
+      border-radius: 50px;
+      background: var(--bg);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+    }
+
+    /* ── Announcements ── */
+    .announcement-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      transition: box-shadow .2s;
+    }
+    .announcement-minimal:hover { box-shadow: var(--shadow-sm); }
+    .announcement-minimal-icon {
+      width: 40px; height: 40px;
+      background: var(--accent-bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .announcement-minimal h6 { font-weight: 600; font-size: .92rem; margin-bottom: .15rem; }
+    .announcement-minimal p { color: var(--text-secondary); font-size: .85rem; margin: 0; line-height: 1.55; }
+    .announcement-minimal .date { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── Testimonials ── */
+    .testimonials-section { background: var(--bg); }
+    .testimonial-minimal {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: transform .3s, box-shadow .3s;
+      height: 100%;
+    }
+    .testimonial-minimal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .testimonial-avatar-minimal {
+      width: 56px; height: 56px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .testimonial-minimal .quote-icon {
+      font-size: 2rem;
+      color: var(--accent-bg);
+      line-height: 1;
+      margin-bottom: .5rem;
+      font-family: 'DM Serif Display', serif;
+    }
+    .testimonial-minimal p { color: var(--text-secondary); font-size: .92rem; font-style: italic; margin-bottom: 1.25rem; line-height: 1.65; }
+    .testimonial-minimal h6 { font-weight: 600; font-size: .92rem; margin-bottom: .1rem; }
+    .testimonial-minimal .role { font-size: .8rem; color: var(--text-muted); }
+    .stars-minimal { color: var(--accent); font-size: .85rem; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-white); }
+    .cta-minimal-box {
+      background: var(--accent-bg);
+      border: 1px solid rgba(226,176,74,.2);
+      border-radius: var(--radius-xl);
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+    .cta-minimal-box h2 {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+    }
+    .cta-minimal-box p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 460px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+    .btn-cta-minimal {
+      background: var(--primary);
+      color: var(--accent);
+      border: none;
+      font-weight: 600;
+      padding: .75rem 2.25rem;
+      border-radius: var(--radius-sm);
+      font-size: .95rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta-minimal:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      background: var(--primary-light);
+      color: var(--accent);
+    }
+
+    /* ── Footer ── */
+    .footer-minimal {
+      background: var(--primary);
+      color: rgba(255,255,255,.7);
+      padding: 4rem 0 1.5rem;
+    }
+    .footer-minimal h6 {
+      color: #fff;
+      font-weight: 600;
+      font-size: .92rem;
+      margin-bottom: 1.25rem;
+    }
+    .footer-minimal a {
+      color: rgba(255,255,255,.55);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: color .2s;
+    }
+    .footer-minimal a:hover { color: var(--accent); }
+    .footer-minimal .social-link {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: rgba(255,255,255,.6);
+      transition: border-color .2s, color .2s;
+    }
+    .footer-minimal .social-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .footer-bottom-minimal {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+      font-size: .82rem;
+      color: rgba(255,255,255,.35);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .hero-minimal h1 { font-size: 2.8rem; }
+      .hero-minimal { padding: 5rem 0 4rem; }
+      .section-heading { font-size: 2rem; }
+    }
+    @media (max-width: 767px) {
+      .hero-minimal h1 { font-size: 2.2rem; }
+      .section-heading { font-size: 1.75rem; }
+      .cta-minimal-box { padding: 3rem 1.5rem; }
+      .cta-minimal-box h2 { font-size: 1.8rem; }
+      .stat-minimal .stat-num { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="navbar navbar-expand-lg navbar-minimal sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+        ProjectHub
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#competitions">Competitions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#results">Results</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="dropdown">
+          <div class="user-chip dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="chip-avatar">JD</span>
+            <span class="chip-name">John Doe</span>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end minimal-drop">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2"></i>Registration</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Log Off</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero-minimal" id="home">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <span class="label-tag">College Project Management</span>
+          <h1>Manage projects<br>with <span class="accent-word">elegance</span></h1>
+          <p class="lead">A refined platform where students and administrators seamlessly collaborate on academic projects, competitions, and outcomes.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="#" class="btn btn-minimal btn-primary-minimal">Get Started</a>
+            <a href="#" class="btn btn-minimal btn-outline-minimal"><i class="bi bi-play me-1"></i>Watch Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-logos">
+        <p class="mb-3">Trusted by leading institutions</p>
+        <div class="d-flex flex-wrap gap-4 align-items-center">
+          <span class="hero-logo-item"><i class="bi bi-building me-1"></i>NIT Delhi</span>
+          <span class="hero-logo-item"><i class="bi bi-building me-1"></i>IIT Mumbai</span>
+          <span class="hero-logo-item"><i class="bi bi-building me-1"></i>BITS Pilani</span>
+          <span class="hero-logo-item"><i class="bi bi-building me-1"></i>DTU</span>
+          <span class="hero-logo-item"><i class="bi bi-building me-1"></i>VIT Vellore</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section class="features-section section-padding" id="features">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-6">
+          <span class="label-tag">Features</span>
+          <h2 class="section-heading display-font">Crafted for<br>academic excellence</h2>
+        </div>
+        <div class="col-lg-6 d-flex align-items-end">
+          <p class="section-desc">Every detail considered. Every workflow refined. Built for the way students and admins actually work.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-cloud-upload"></i></div>
+            <h5>Project Submission</h5>
+            <p>Submit projects with documentation, source code, and multimedia — beautifully organized.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-trophy"></i></div>
+            <h5>Competition Hub</h5>
+            <p>Discover and join competitions with team registration and deadline tracking built in.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <h5>Result Tracking</h5>
+            <p>View results and grades with detailed analytics and performance insights at a glance.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-kanban"></i></div>
+            <h5>Progress Monitoring</h5>
+            <p>Track milestones and deliverables with clean, visual progress dashboards.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-patch-check"></i></div>
+            <h5>Admin Workflow</h5>
+            <p>Review, approve, or request revisions with an intuitive approval pipeline.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-minimal">
+            <div class="fm-icon"><i class="bi bi-bell"></i></div>
+            <h5>Smart Notifications</h5>
+            <p>Stay updated on project status changes, announcements, and deadline reminders.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ STATISTICS ═══════ -->
+  <section class="stats-section section-padding">
+    <div class="container">
+      <div class="text-center mb-4">
+        <span class="label-tag" style="color:rgba(255,255,255,.5);">Impact</span>
+        <h2 class="display-font" style="color:#fff;font-size:2.5rem;">Numbers that speak</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-minimal">
+            <div class="stat-num">1,247</div>
+            <div class="stat-label">Total Projects</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-minimal">
+            <div class="stat-num">52</div>
+            <div class="stat-label">Active Competitions</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-minimal">
+            <div class="stat-num">5,830</div>
+            <div class="stat-label">Registered Students</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-minimal">
+            <div class="stat-num">896</div>
+            <div class="stat-label">Completed Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ LATEST PROJECTS ═══════ -->
+  <section class="section-padding" id="projects">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-end mb-5">
+        <div>
+          <span class="label-tag">Projects</span>
+          <h2 class="section-heading display-font">Latest work</h2>
+        </div>
+        <a href="#" class="btn btn-minimal btn-outline-minimal mt-2" style="font-size:.85rem;">View All</a>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="project-minimal">
+            <div class="project-minimal-img"><i class="bi bi-robot"></i></div>
+            <div class="project-minimal-body">
+              <div class="mb-2"><span class="badge-minimal badge-minimal-success">Approved</span></div>
+              <h6>AI-Powered Chatbot Assistant</h6>
+              <p>NLP-driven chatbot for student queries using machine learning.</p>
+              <div class="progress-minimal mb-3"><div class="progress-bar" style="width:85%"></div></div>
+              <div class="project-minimal-meta">
+                <span><i class="bi bi-people"></i> Team Alpha</span>
+                <span><i class="bi bi-calendar3"></i> Dec 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-minimal">
+            <div class="project-minimal-img" style="background:rgba(212,148,58,.06);"><i class="bi bi-cloud-hail" style="color:var(--warning);"></i></div>
+            <div class="project-minimal-body">
+              <div class="mb-2"><span class="badge-minimal badge-minimal-warning">In Review</span></div>
+              <h6>Smart Weather Monitoring</h6>
+              <p>IoT weather station with real-time analytics and forecasting.</p>
+              <div class="progress-minimal mb-3"><div class="progress-bar" style="width:60%"></div></div>
+              <div class="project-minimal-meta">
+                <span><i class="bi bi-people"></i> Team Nova</span>
+                <span><i class="bi bi-calendar3"></i> Jan 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-minimal">
+            <div class="project-minimal-img" style="background:rgba(58,123,213,.06);"><i class="bi bi-shield-check" style="color:var(--info);"></i></div>
+            <div class="project-minimal-body">
+              <div class="mb-2"><span class="badge-minimal badge-minimal-info">In Progress</span></div>
+              <h6>Campus Security Analytics</h6>
+              <p>Video analytics platform for campus safety using computer vision.</p>
+              <div class="progress-minimal mb-3"><div class="progress-bar" style="width:40%"></div></div>
+              <div class="project-minimal-meta">
+                <span><i class="bi bi-people"></i> Team Secure</span>
+                <span><i class="bi bi-calendar3"></i> Feb 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ COMPETITIONS ═══════ -->
+  <section class="competitions-section section-padding" id="competitions">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="label-tag">Competitions</span>
+        <h2 class="section-heading display-font">Upcoming challenges</h2>
+        <p class="section-desc mx-auto">Compete, learn, and distinguish yourself.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="competition-minimal">
+            <div class="d-flex gap-3">
+              <div class="comp-date-minimal">
+                <div class="day">15</div>
+                <div class="month">Jul</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>National Hackathon 2026</h6>
+                <p>48-hour coding challenge for real-world problem solving.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="tag-minimal">Coding</span>
+                  <span class="tag-minimal">Team Event</span>
+                  <span class="tag-minimal">₹2L Prize</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-minimal">
+            <div class="d-flex gap-3">
+              <div class="comp-date-minimal">
+                <div class="day">22</div>
+                <div class="month">Jul</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>Research Paper Presentation</h6>
+                <p>Present original research to a panel of distinguished academicians.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="tag-minimal">Research</span>
+                  <span class="tag-minimal">Individual</span>
+                  <span class="tag-minimal">Certificate</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-minimal">
+            <div class="d-flex gap-3">
+              <div class="comp-date-minimal">
+                <div class="day">05</div>
+                <div class="month">Aug</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>UI/UX Design Sprint</h6>
+                <p>24-hour design sprint for social impact applications.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="tag-minimal">Design</span>
+                  <span class="tag-minimal">Team Event</span>
+                  <span class="tag-minimal">₹50K Prize</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="competition-minimal">
+            <div class="d-flex gap-3">
+              <div class="comp-date-minimal">
+                <div class="day">18</div>
+                <div class="month">Aug</div>
+              </div>
+              <div class="flex-grow-1">
+                <h6>AI/ML Model Challenge</h6>
+                <p>Train ML models to solve complex classification tasks.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="tag-minimal">AI/ML</span>
+                  <span class="tag-minimal">Individual</span>
+                  <span class="tag-minimal">₹1L Prize</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ ANNOUNCEMENTS ═══════ -->
+  <section class="section-padding" id="announcements">
+    <div class="container">
+      <div class="row align-items-start">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <span class="label-tag">Notices</span>
+          <h2 class="section-heading display-font">Latest<br>announcements</h2>
+          <p class="section-desc">Important updates from the administration.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="d-flex flex-column gap-3">
+            <div class="announcement-minimal">
+              <div class="announcement-minimal-icon"><i class="bi bi-exclamation-circle"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>Project Submission Deadline Extended</h6>
+                  <span class="date">2 hours ago</span>
+                </div>
+                <p>Final year project submission deadline extended to July 30, 2026.</p>
+              </div>
+            </div>
+            <div class="announcement-minimal">
+              <div class="announcement-minimal-icon"><i class="bi bi-calendar-event"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>Annual Tech Fest Registration Open</h6>
+                  <span class="date">1 day ago</span>
+                </div>
+                <p>Register for TechVista 2026 — early bird discounts until June 25.</p>
+              </div>
+            </div>
+            <div class="announcement-minimal">
+              <div class="announcement-minimal-icon"><i class="bi bi-info-circle"></i></div>
+              <div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <h6>New Project Categories Added</h6>
+                  <span class="date">3 days ago</span>
+                </div>
+                <p>Blockchain and IoT categories now available for project submissions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ TESTIMONIALS ═══════ -->
+  <section class="testimonials-section section-padding" id="about">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="label-tag">Testimonials</span>
+        <h2 class="section-heading display-font">What they say</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="testimonial-minimal">
+            <div class="testimonial-avatar-minimal">AS</div>
+            <div class="stars-minimal mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>"ProjectHub made tracking our final year project milestones effortless. The admin feedback loop is exceptional."</p>
+            <h6>Ananya Sharma</h6>
+            <div class="role">Computer Science Student</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-minimal">
+            <div class="testimonial-avatar-minimal">RK</div>
+            <div class="stars-minimal mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            </div>
+            <p>"As an administrator, the approval workflow saves hours every week. Reviewing is now a pleasure."</p>
+            <h6>Dr. Rajesh Kumar</h6>
+            <div class="role">HOD, Information Technology</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-minimal">
+            <div class="testimonial-avatar-minimal">PM</div>
+            <div class="stars-minimal mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>"Competition tracking kept our team on deadlines and led to winning submissions."</p>
+            <h6>Priya Mehta</h6>
+            <div class="role">Electronics Student</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="cta-section section-padding" id="contact">
+    <div class="container">
+      <div class="cta-minimal-box">
+        <h2 class="display-font">Start your journey</h2>
+        <p>Join thousands of students and educators transforming how academic projects are managed.</p>
+        <a href="#" class="btn btn-cta-minimal">Get Started <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer-minimal">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 mb-3 mb-lg-0">
+          <h6 style="font-size:1.15rem;font-weight:700;"><i class="bi bi-mortarboard-fill me-2" style="color:var(--accent);"></i>ProjectHub</h6>
+          <p style="font-size:.88rem;max-width:280px;color:rgba(255,255,255,.4);">Empowering colleges to manage academic projects and competitions with refined, modern tools.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Quick Links</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Competitions</a></li>
+            <li><a href="#">Results</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Resources</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Guidelines</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h6>Contact</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2" style="font-size:.88rem;color:rgba(255,255,255,.45);">
+            <li><i class="bi bi-geo-alt me-2" style="color:var(--accent);"></i>123 University Ave, Academic City, IN</li>
+            <li><i class="bi bi-envelope me-2" style="color:var(--accent);"></i>support@projecthub.edu</li>
+            <li><i class="bi bi-telephone me-2" style="color:var(--accent);"></i>+91 80 1234 5678</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom-minimal text-center">
+        &copy; 2026 ProjectHub. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener('scroll', () => {
+      document.querySelector('.navbar-minimal').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectHub - Glassmorphism Edition</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --grad-1: #0f0c29;
+      --grad-2: #302b63;
+      --grad-3: #24243e;
+      --accent-cyan: #00d2ff;
+      --accent-pink: #ff6b9d;
+      --accent-orange: #ff8a56;
+      --accent-green: #36d399;
+      --glass-bg: rgba(255,255,255,.08);
+      --glass-border: rgba(255,255,255,.15);
+      --glass-bg-hover: rgba(255,255,255,.14);
+      --glass-shadow: 0 8px 32px rgba(0,0,0,.3);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,.7);
+      --text-muted: rgba(255,255,255,.5);
+      --radius: 16px;
+      --radius-lg: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 50%, var(--grad-3) 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ── Animated background blobs ── */
+    .bg-blobs {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      animation: float 20s ease-in-out infinite;
+    }
+    .blob-1 {
+      width: 500px; height: 500px;
+      background: var(--accent-cyan);
+      top: -10%; left: -5%;
+      animation-delay: 0s;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: var(--accent-pink);
+      top: 40%; right: -8%;
+      animation-delay: -7s;
+    }
+    .blob-3 {
+      width: 350px; height: 350px;
+      background: var(--accent-orange);
+      bottom: -5%; left: 30%;
+      animation-delay: -14s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(.95); }
+    }
+
+    .content-wrapper { position: relative; z-index: 1; }
+
+    /* ── Glass mixin ── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+    }
+    .glass-lg {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+    }
+
+    /* ── Navbar ── */
+    .navbar-glass {
+      background: rgba(15,12,41,.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: .65rem 0;
+      z-index: 1050;
+      transition: background .3s;
+    }
+    .navbar-glass .navbar-brand {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .brand-icon-glass {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .navbar-glass .nav-link {
+      color: var(--text-secondary);
+      font-weight: 500;
+          font-size: .9rem;
+      padding: .45rem .85rem !important;
+      border-radius: 10px;
+      transition: color .2s, background .2s;
+    }
+    .navbar-glass .nav-link:hover,
+    .navbar-glass .nav-link.active {
+      color: #fff;
+      background: rgba(255,255,255,.1);
+    }
+    .user-pill {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #fff;
+      border-radius: 50px;
+      padding: .35rem .85rem .35rem .45rem;
+      font-weight: 600;
+      font-size: .82rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .user-pill:hover { background: rgba(255,255,255,.15); }
+    .user-pill .avatar-glow {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .dropdown-menu.dark-drop {
+      background: rgba(30,25,70,.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: .5rem;
+      min-width: 180px;
+    }
+    .dropdown-menu.dark-drop .dropdown-item {
+      color: var(--text-secondary);
+      border-radius: 8px;
+      padding: .45rem .85rem;
+      font-size: .88rem;
+      font-weight: 500;
+      transition: background .15s, color .15s;
+    }
+    .dropdown-menu.dark-drop .dropdown-item:hover {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+    }
+    .dropdown-menu.dark-drop .dropdown-item i { width: 20px; }
+    .dropdown-menu.dark-drop .dropdown-divider { border-color: rgba(255,255,255,.1); }
+
+    /* ── Hero ── */
+    .hero-glass {
+      padding: 7rem 0 6rem;
+      position: relative;
+    }
+    .hero-glass h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-glass .lead {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+    }
+    .hero-glass .badge-glass {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(0,210,255,.15);
+      border: 1px solid rgba(0,210,255,.3);
+      border-radius: 50px;
+      padding: .3rem 1rem;
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--accent-cyan);
+      margin-bottom: 1.25rem;
+    }
+    .btn-glow {
+      padding: .65rem 1.7rem;
+      font-weight: 600;
+      font-size: .92rem;
+      border-radius: 50px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-glow:hover { transform: translateY(-2px); }
+    .btn-glow-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0,210,255,.3);
+    }
+    .btn-glow-primary:hover {
+      box-shadow: 0 6px 25px rgba(0,210,255,.5);
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: #fff;
+    }
+    .btn-glow-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.3);
+    }
+    .btn-glow-outline:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.5);
+      color: #fff;
+    }
+    .hero-stats-glass {
+      margin-top: 3rem;
+    }
+    .hero-stat-pill {
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+    .hero-stat-pill .num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .hero-stat-pill .label {
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Section ── */
+    .section-padding { padding: 5rem 0; }
+    .section-title-glow {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+    .section-sub-glow {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(0,210,255,.12);
+      color: var(--accent-cyan);
+      border-radius: 50px;
+      padding: .28rem .85rem;
+      font-size: .76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .65rem;
+    }
+
+    /* ── Feature glass cards ── */
+    .feature-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .3s, background .3s, border-color .3s;
+      height: 100%;
+    }
+    .feature-glass:hover {
+      transform: translateY(-8px);
+      background: var(--glass-bg-hover);
+      border-color: rgba(255,255,255,.25);
+    }
+    .feature-glass .icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .icon-cyan { background: rgba(0,210,255,.15); color: var(--accent-cyan); }
+    .icon-pink { background: rgba(255,107,157,.15); color: var(--accent-pink); }
+    .icon-orange { background: rgba(255,138,86,.15); color: var(--accent-orange); }
+    .icon-green { background: rgba(54,211,153,.15); color: var(--accent-green); }
+    .feature-glass h5 { font-weight: 600; font-size: 1.05rem; margin-bottom: .4rem; }
+    .feature-glass p { color: var(--text-secondary); font-size: .88rem; margin: 0; }
+
+    /* ── Stats glass row ── */
+    .stat-glass-card {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .3s, border-color .3s;
+    }
+    .stat-glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.2);
+    }
+    .stat-glass-card .stat-icon-glow {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: .75rem;
+    }
+    .stat-glass-card .stat-num {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .stat-glass-card .stat-label {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin-top: .2rem;
+    }
+
+    /* ── Project glass cards ── */
+    .project-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform .3s, border-color .3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-glass:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.25);
+    }
+    .project-glass-img {
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-glass-img.img-1 { background: linear-gradient(135deg, rgba(0,210,255,.2), rgba(0,210,255,.05)); }
+    .project-glass-img.img-2 { background: linear-gradient(135deg, rgba(255,107,157,.2), rgba(255,107,157,.05)); }
+    .project-glass-img.img-3 { background: linear-gradient(135deg, rgba(54,211,153,.2), rgba(54,211,153,.05)); }
+    .project-glass-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-glass-body h6 { font-weight: 600; margin-bottom: .35rem; }
+    .project-glass-body p { color: var(--text-secondary); font-size: .85rem; margin-bottom: .75rem; flex: 1; }
+    .project-glass-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+    .project-glass-meta i { color: var(--accent-cyan); }
+    .badge-glow {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .25rem .65rem;
+      border-radius: 50px;
+    }
+    .badge-glow-success { background: rgba(54,211,153,.15); color: var(--accent-green); }
+    .badge-glow-warning { background: rgba(255,138,86,.15); color: var(--accent-orange); }
+    .badge-glow-info { background: rgba(0,210,255,.15); color: var(--accent-cyan); }
+    .progress-glass {
+      height: 5px;
+      border-radius: 3px;
+      background: rgba(255,255,255,.1);
+    }
+    .progress-glass .progress-bar { border-radius: 3px; }
+    .progress-glass .bg-cyan { background: var(--accent-cyan); }
+    .progress-glass .bg-pink { background: var(--accent-pink); }
+    .progress-glass .bg-green { background: var(--accent-green); }
+    .progress-glass .bg-orange { background: var(--accent-orange); }
+
+    /* ── Competition glass cards ── */
+    .competition-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: transform .3s, border-color .3s;
+      height: 100%;
+    }
+    .competition-glass:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,.25);
+    }
+    .comp-date-glass {
+      width: 56px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      border-radius: 12px;
+      text-align: center;
+      padding: .5rem .25rem;
+      flex-shrink: 0;
+    }
+    .comp-date-glass .day { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #fff; }
+    .comp-date-glass .month { font-size: .68rem; text-transform: uppercase; letter-spacing: .5px; color: rgba(255,255,255,.8); }
+    .competition-glass h6 { font-weight: 600; font-size: .95rem; margin-bottom: .25rem; }
+    .competition-glass p { color: var(--text-secondary); font-size: .84rem; margin-bottom: .5rem; }
+    .tag-glass {
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+      background: rgba(255,255,255,.08);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    /* ── Announcements ── */
+    .announcement-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color .2s;
+    }
+    .announcement-glass:hover { border-color: rgba(255,255,255,.25); }
+    .announcement-glass-icon {
+      width: 42px; height: 42px;
+      background: rgba(0,210,255,.12);
+      color: var(--accent-cyan);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .announcement-glass h6 { font-weight: 600; font-size: .92rem; margin-bottom: .2rem; }
+    .announcement-glass p { color: var(--text-secondary); font-size: .84rem; margin: 0; }
+    .announcement-glass .date { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── Testimonials ── */
+    .testimonial-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .3s, border-color .3s;
+      height: 100%;
+    }
+    .testimonial-glass:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,.25);
+    }
+    .testimonial-avatar-glass {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .75rem;
+    }
+    .testimonial-glass p { color: var(--text-secondary); font-size: .9rem; font-style: italic; margin-bottom: 1rem; }
+    .testimonial-glass h6 { font-weight: 600; font-size: .92rem; margin-bottom: .1rem; }
+    .testimonial-glass .role { font-size: .8rem; color: var(--text-muted); }
+    .stars-glow { color: var(--accent-orange); font-size: .85rem; }
+
+    /* ── CTA ── */
+    .cta-glass-box {
+      background: linear-gradient(135deg, rgba(0,210,255,.15), rgba(255,107,157,.15));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius-lg);
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+    .cta-glass-box h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: .75rem; }
+    .cta-glass-box p { font-size: 1.05rem; color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem; }
+    .btn-cta-glow {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      padding: .7rem 2rem;
+      border-radius: 50px;
+      font-size: .95rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0,210,255,.3);
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: #fff;
+    }
+
+    /* ── Footer ── */
+    .footer-glass {
+      background: rgba(15,12,41,.5);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 3.5rem 0 1.5rem;
+    }
+    .footer-glass h6 { color: #fff; font-weight: 600; font-size: .95rem; margin-bottom: 1rem; }
+    .footer-glass a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: color .2s;
+    }
+    .footer-glass a:hover { color: var(--accent-cyan); }
+    .footer-glass .social-glass {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: var(--text-secondary);
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .footer-glass .social-glass:hover {
+      background: rgba(0,210,255,.15);
+      color: var(--accent-cyan);
+      border-color: rgba(0,210,255,.3);
+    }
+    .footer-bottom-glass {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 1.25rem;
+      margin-top: 2rem;
+      font-size: .82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .hero-glass h1 { font-size: 2.6rem; }
+      .hero-glass { padding: 5rem 0 4rem; }
+    }
+    @media (max-width: 767px) {
+      .hero-glass h1 { font-size: 2rem; }
+      .section-title-glow { font-size: 1.65rem; }
+      .cta-glass-box { padding: 2.5rem 1.5rem; }
+      .cta-glass-box h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="content-wrapper">
+
+    <!-- ═══════ NAVBAR ═══════ -->
+    <nav class="navbar navbar-expand-lg navbar-glass sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <span class="brand-icon-glass"><i class="bi bi-mortarboard-fill"></i></span>
+          ProjectHub
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="color:#fff;">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#competitions">Competitions</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#results">Results</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+          </ul>
+          <div class="dropdown">
+            <div class="user-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="avatar-glow">JD</span>
+              John Doe
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end dark-drop">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2"></i>Registration</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Log Off</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════ HERO ═══════ -->
+    <section class="hero-glass" id="home">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="badge-glass"><i class="bi bi-stars"></i> Powered by Innovation</div>
+            <h1>Your Projects,<br>Reimagined</h1>
+            <p class="lead">A futuristic platform where students and admins collaborate on academic projects, compete in challenges, and track progress — beautifully.</p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <a href="#" class="btn btn-glow btn-glow-primary">Launch Dashboard</a>
+              <a href="#" class="btn btn-glow btn-glow-outline"><i class="bi bi-play-circle me-1"></i>Watch Demo</a>
+            </div>
+            <div class="hero-stats-glass row g-3 mt-4">
+              <div class="col-4">
+                <div class="hero-stat-pill">
+                  <div class="num">1,200+</div>
+                  <div class="label">Projects</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="hero-stat-pill">
+                  <div class="num">50+</div>
+                  <div class="label">Competitions</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="hero-stat-pill">
+                  <div class="num">5,000+</div>
+                  <div class="label">Students</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ FEATURES ═══════ -->
+    <section class="section-padding" id="features">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="section-tag"><i class="bi bi-grid-3x3-gap"></i> Features</div>
+          <h2 class="section-title-glow">Built for Modern Academia</h2>
+          <p class="section-sub-glow mx-auto">Everything you need — from submission to celebration — in one sleek platform.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-cyan"><i class="bi bi-cloud-upload"></i></div>
+              <h5>Project Submission</h5>
+              <p>Upload projects with docs, code, and media in a structured, organized flow.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-pink"><i class="bi bi-trophy"></i></div>
+              <h5>Competition Hub</h5>
+              <p>Discover, register, and compete in college-level challenges with team tools.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-orange"><i class="bi bi-graph-up-arrow"></i></div>
+              <h5>Result Analytics</h5>
+              <p>Visualize competition results and grades with interactive charts.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-green"><i class="bi bi-kanban"></i></div>
+              <h5>Progress Monitoring</h5>
+              <p>Track milestones and deadlines with real-time project dashboards.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-cyan"><i class="bi bi-patch-check"></i></div>
+              <h5>Admin Workflow</h5>
+              <p>Review, approve, or revise submissions with a streamlined admin pipeline.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-glass">
+              <div class="icon-wrap icon-pink"><i class="bi bi-bell"></i></div>
+              <h5>Smart Notifications</h5>
+              <p>Never miss a deadline or update with intelligent real-time alerts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ STATISTICS ═══════ -->
+    <section class="section-padding">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-6 col-md-3">
+            <div class="stat-glass-card">
+              <div class="stat-icon-glow icon-cyan"><i class="bi bi-folder2-open"></i></div>
+              <div class="stat-num" style="color:var(--accent-cyan);">1,247</div>
+              <div class="stat-label">Total Projects</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-glass-card">
+              <div class="stat-icon-glow icon-pink"><i class="bi bi-lightning-charge"></i></div>
+              <div class="stat-num" style="color:var(--accent-pink);">52</div>
+              <div class="stat-label">Active Competitions</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-glass-card">
+              <div class="stat-icon-glow icon-orange"><i class="bi bi-people"></i></div>
+              <div class="stat-num" style="color:var(--accent-orange);">5,830</div>
+              <div class="stat-label">Registered Students</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-glass-card">
+              <div class="stat-icon-glow icon-green"><i class="bi bi-check2-circle"></i></div>
+              <div class="stat-num" style="color:var(--accent-green);">896</div>
+              <div class="stat-label">Completed Projects</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ LATEST PROJECTS ═══════ -->
+    <section class="section-padding" id="projects">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+          <div>
+            <div class="section-tag"><i class="bi bi-folder2"></i> Projects</div>
+            <h2 class="section-title-glow">Latest Projects</h2>
+            <p class="section-sub-glow">Recently submitted academic projects.</p>
+          </div>
+          <a href="#" class="btn btn-glow btn-glow-outline mt-2" style="font-size:.85rem;">View All</a>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="project-glass">
+              <div class="project-glass-img img-1"><i class="bi bi-robot" style="color:var(--accent-cyan);"></i></div>
+              <div class="project-glass-body">
+                <div class="mb-2"><span class="badge-glow badge-glow-success">Approved</span></div>
+                <h6>AI-Powered Chatbot Assistant</h6>
+                <p>NLP-driven chatbot for student queries using machine learning.</p>
+                <div class="progress-glass mb-2"><div class="progress-bar bg-green" style="width:85%"></div></div>
+                <div class="project-glass-meta">
+                  <span><i class="bi bi-person"></i> Team Alpha</span>
+                  <span><i class="bi bi-calendar3"></i> Dec 2025</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="project-glass">
+              <div class="project-glass-img img-2"><i class="bi bi-cloud-hail" style="color:var(--accent-pink);"></i></div>
+              <div class="project-glass-body">
+                <div class="mb-2"><span class="badge-glow badge-glow-warning">In Review</span></div>
+                <h6>Smart Weather Monitoring</h6>
+                <p>IoT weather station with predictive analytics and forecasting.</p>
+                <div class="progress-glass mb-2"><div class="progress-bar bg-orange" style="width:60%"></div></div>
+                <div class="project-glass-meta">
+                  <span><i class="bi bi-person"></i> Team Nova</span>
+                  <span><i class="bi bi-calendar3"></i> Jan 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="project-glass">
+              <div class="project-glass-img img-3"><i class="bi bi-shield-check" style="color:var(--accent-green);"></i></div>
+              <div class="project-glass-body">
+                <div class="mb-2"><span class="badge-glow badge-glow-info">In Progress</span></div>
+                <h6>Campus Security Analytics</h6>
+                <p>Video analytics for campus safety using computer vision.</p>
+                <div class="progress-glass mb-2"><div class="progress-bar bg-cyan" style="width:40%"></div></div>
+                <div class="project-glass-meta">
+                  <span><i class="bi bi-person"></i> Team Secure</span>
+                  <span><i class="bi bi-calendar3"></i> Feb 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ COMPETITIONS ═══════ -->
+    <section class="section-padding" id="competitions">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="section-tag"><i class="bi bi-trophy"></i> Competitions</div>
+          <h2 class="section-title-glow">Upcoming Competitions</h2>
+          <p class="section-sub-glow mx-auto">Join challenges and prove your mettle.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="competition-glass">
+              <div class="d-flex gap-3">
+                <div class="comp-date-glass">
+                  <div class="day">15</div>
+                  <div class="month">Jul</div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6>National Hackathon 2026</h6>
+                  <p>48-hour coding challenge for real-world problem solving.</p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="tag-glass">Coding</span>
+                    <span class="tag-glass">Team</span>
+                    <span class="tag-glass">₹2L Prize</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="competition-glass">
+              <div class="d-flex gap-3">
+                <div class="comp-date-glass">
+                  <div class="day">22</div>
+                  <div class="month">Jul</div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6>Research Paper Presentation</h6>
+                  <p>Present original research to a panel of academicians.</p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="tag-glass">Research</span>
+                    <span class="tag-glass">Individual</span>
+                    <span class="tag-glass">Certificate</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="competition-glass">
+              <div class="d-flex gap-3">
+                <div class="comp-date-glass">
+                  <div class="day">05</div>
+                  <div class="month">Aug</div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6>UI/UX Design Sprint</h6>
+                  <p>24-hour design sprint for social impact applications.</p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="tag-glass">Design</span>
+                    <span class="tag-glass">Team</span>
+                    <span class="tag-glass">₹50K Prize</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="competition-glass">
+              <div class="d-flex gap-3">
+                <div class="comp-date-glass">
+                  <div class="day">18</div>
+                  <div class="month">Aug</div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6>AI/ML Model Challenge</h6>
+                  <p>Train ML models to solve complex classification tasks.</p>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="tag-glass">AI/ML</span>
+                    <span class="tag-glass">Individual</span>
+                    <span class="tag-glass">₹1L Prize</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ ANNOUNCEMENTS ═══════ -->
+    <section class="section-padding" id="announcements">
+      <div class="container">
+        <div class="row align-items-start">
+          <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="section-tag"><i class="bi bi-megaphone"></i> Announcements</div>
+            <h2 class="section-title-glow">Latest Notices</h2>
+            <p class="section-sub-glow">Important updates from the administration.</p>
+          </div>
+          <div class="col-lg-7">
+            <div class="d-flex flex-column gap-3">
+              <div class="announcement-glass">
+                <div class="announcement-glass-icon"><i class="bi bi-exclamation-circle"></i></div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-start">
+                    <h6>Project Submission Deadline Extended</h6>
+                    <span class="date">2 hours ago</span>
+                  </div>
+                  <p>Final year project deadline extended to July 30, 2026.</p>
+                </div>
+              </div>
+              <div class="announcement-glass">
+                <div class="announcement-glass-icon" style="background:rgba(255,107,157,.12);color:var(--accent-pink);"><i class="bi bi-calendar-event"></i></div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-start">
+                    <h6>Annual Tech Fest Registration Open</h6>
+                    <span class="date">1 day ago</span>
+                  </div>
+                  <p>Register for TechVista 2026 — early bird discounts until June 25.</p>
+                </div>
+              </div>
+              <div class="announcement-glass">
+                <div class="announcement-glass-icon" style="background:rgba(54,211,153,.12);color:var(--accent-green);"><i class="bi bi-info-circle"></i></div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-start">
+                    <h6>New Project Categories Added</h6>
+                    <span class="date">3 days ago</span>
+                  </div>
+                  <p>Blockchain and IoT categories now available for submissions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ TESTIMONIALS ═══════ -->
+    <section class="section-padding" id="about">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="section-tag"><i class="bi bi-chat-quote"></i> Testimonials</div>
+          <h2 class="section-title-glow">What Users Say</h2>
+          <p class="section-sub-glow mx-auto">Students and admins love ProjectHub.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="testimonial-glass">
+              <div class="testimonial-avatar-glass">AS</div>
+              <div class="stars-glow mb-2">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p>"ProjectHub made tracking our final year project milestones effortless. The admin feedback system is a game changer."</p>
+              <h6>Ananya Sharma</h6>
+              <div class="role">Computer Science Student</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-glass">
+              <div class="testimonial-avatar-glass">RK</div>
+              <div class="stars-glow mb-2">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+              </div>
+              <p>"As an admin, the approval workflow saves hours every week. Reviewing projects is now seamless."</p>
+              <h6>Dr. Rajesh Kumar</h6>
+              <div class="role">HOD, Information Technology</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-glass">
+              <div class="testimonial-avatar-glass">PM</div>
+              <div class="stars-glow mb-2">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p>"The competition tracking feature kept our team on top of deadlines and winning submissions."</p>
+              <h6>Priya Mehta</h6>
+              <div class="role">Electronics Student</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ CTA ═══════ -->
+    <section class="section-padding" id="contact">
+      <div class="container">
+        <div class="cta-glass-box">
+          <h2>Ready to Level Up?</h2>
+          <p>Join thousands of students and educators already transforming academic project management.</p>
+          <a href="#" class="btn btn-cta-glow">Get Started <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer class="footer-glass">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <h6 style="font-size:1.15rem;font-weight:700;"><i class="bi bi-mortarboard-fill me-2" style="color:var(--accent-cyan);"></i>ProjectHub</h6>
+            <p style="font-size:.88rem;color:var(--text-muted);max-width:280px;">Empowering colleges to manage academic projects and competitions with modern tools.</p>
+            <div class="d-flex gap-2 mt-3">
+              <a href="#" class="social-glass"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" class="social-glass"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="social-glass"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-glass"><i class="bi bi-github"></i></a>
+            </div>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Quick Links</h6>
+            <ul class="list-unstyled d-flex flex-column gap-2">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Projects</a></li>
+              <li><a href="#">Competitions</a></li>
+              <li><a href="#">Results</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Resources</h6>
+            <ul class="list-unstyled d-flex flex-column gap-2">
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">Guidelines</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-4">
+            <h6>Contact</h6>
+            <ul class="list-unstyled d-flex flex-column gap-2" style="font-size:.88rem;color:var(--text-muted);">
+              <li><i class="bi bi-geo-alt me-2" style="color:var(--accent-cyan);"></i>123 University Ave, Academic City</li>
+              <li><i class="bi bi-envelope me-2" style="color:var(--accent-cyan);"></i>support@projecthub.edu</li>
+              <li><i class="bi bi-telephone me-2" style="color:var(--accent-cyan);"></i>+91 80 1234 5678</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom-glass text-center">
+          &copy; 2026 ProjectHub. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
